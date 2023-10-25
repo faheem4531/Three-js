@@ -25,8 +25,22 @@ const sizes = {
 
 
 // Camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
-camera.position.z = 3
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+
+// const aspectRatio = sizes.width / sizes.height
+// const camera = new THREE.OrthographicCamera(
+//   -1 * aspectRatio,
+//   1 * aspectRatio,
+//   1,
+//   -1,
+//   0.1,
+//   100
+// )
+
+// camera.position.x = 2
+// camera.position.y = 2
+camera.position.z = 2
+camera.lookAt(mesh.position)
 scene.add(camera)
 
 
@@ -45,8 +59,8 @@ const clock = new THREE.Clock()
 
 
 // Animations 
-gsap.to(mesh.position, { duration: 1, delay: 1, x: 2 })
-gsap.to(mesh.position, { duration: 1, delay: 2, x: 0 })
+// gsap.to(mesh.position, { duration: 1, delay: 1, x: 2 })
+// gsap.to(mesh.position, { duration: 1, delay: 2, x: 0 })
 
 
 const tick = () => {
@@ -57,7 +71,7 @@ const tick = () => {
   // camera.position.y = Math.sin(ellapsedTime)
   // camera.position.x = Math.cos(ellapsedTime)
 
-  // mesh.rotation.y += 0.01
+  mesh.rotation.y = ellapsedTime
   // mesh.rotation.x += 0.01
   // mesh.rotation.z += 0.01
 
