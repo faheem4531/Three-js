@@ -18,17 +18,21 @@ window.addEventListener('mousemove', (event) => {
 const scene = new THREE.Scene();
 
 
-// Red Cube 
-// const geometry = new THREE.BoxGeometry(1, 1, 1, 4, 4, 4)
 
-const positionArray = new Float32Array(
-  [0, 0, 0,
-    0, 1, 0,
-    1, 0, 0]
-)
-const positionAttribute = new THREE.BufferAttribute(positionArray, 3)
+//                                          Geomatery
+// Red Triangles 
 const geometry = new THREE.BufferGeometry()
+// count of trangles 
+const count = 50
+const positionArray = new Float32Array(count * 3 * 3)
+// set values in position array 
+for (let i = 0; i < count * 3 * 3; i++) {
+  positionArray[i] = (Math.random() - 0.5) * 4
+}
+
+const positionAttribute = new THREE.BufferAttribute(positionArray, 3)
 geometry.setAttribute('position', positionAttribute)
+
 
 const material = new THREE.MeshBasicMaterial({
   color: '#ff0000',
@@ -92,30 +96,7 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 
 
-// // Clock 
-const clock = new THREE.Clock()
-
 const tick = () => {
-
-
-  // const ellapsedTime = clock.getElapsedTime()
-
-  // camera.position.y = Math.sin(ellapsedTime)
-  // camera.position.x = Math.cos(ellapsedTime)
-
-  // mesh.rotation.y = ellapsedTime
-  // mesh.rotation.x += 0.01
-  // mesh.rotation.z += 0.01
-
-
-  // Update Camera 
-  // camera.position.x = Math.sin(curser.x * Math.PI * 2) * 3
-  // camera.position.z = Math.cos(curser.x * Math.PI * 2) * 3
-  // camera.position.y = Math.sin(curser.y * Math.PI * 2) * 3
-  // camera.position.z = Math.cos(curser.y * Math.PI * 2) * 3
-  // camera.lookAt(mesh.position)
-
-
   // Update controls 
   controls.update()
 
