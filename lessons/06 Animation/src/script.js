@@ -2,9 +2,17 @@ import * as THREE from "three"
 import "./style.css"
 import gsap from "gsap"
 
-console.log(gsap);
+// Curser
+const curser = {
+  x: 0,
+  y: 0
+}
+window.addEventListener('mousemove', (event) => {
 
-
+  curser.x = event.clientX / sizes.width - 0.5
+  curser.y = event.clientY / sizes.height - 0.5
+  console.log(event.clientX);
+})
 
 //  Scene 
 const scene = new THREE.Scene();
