@@ -4,15 +4,41 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 /**
  * Texture
  */
-const image = new Image()
-const texture = new THREE.Texture(image)
-console.log(texture);
+const loadingManager = new THREE.LoadingManager()
 
-image.onload = () => {
-    texture.needsUpdate = true
-}
+// loadingManager.onStart = () => {
+//     console.log('start');
+// }
 
-image.src = '/textures/door/color.jpg'
+// loadingManager.onLoad = () => {
+//     console.log('Load');
+// }
+
+// loadingManager.onProgress = () => {
+//     console.log('progress');
+// }
+
+// loadingManager.onError = () => {
+//     console.log('error');
+// }
+const textureLoader = new THREE.TextureLoader(loadingManager)
+const colorTexture = textureLoader.load('/textures/door/color.jpg')
+// const colorTexture = textureLoader.load('/textures/minecraft.png') // blur image 
+
+// colorTexture.repeat.x = 2
+// colorTexture.repeat.y = 3
+// colorTexture.wrapS = THREE.MirroredRepeatWrapping
+// colorTexture.wrapT = THREE.MirroredRepeatWrapping
+// colorTexture.offset.x = 0.5
+// colorTexture.offset.y = 0.5
+// colorTexture.rotation = Math.PI / 4
+// colorTexture.center.x = 0.5
+// colorTexture.center.y = 0.5
+
+// for maintain testure px result 
+colorTexture.generateMipmaps = false
+colorTexture.minFilter = THREE.NearestFilter
+colorTexture.magFilter = THREE.NearestFilter   // make blury images sharpen
 
 
 
@@ -26,7 +52,7 @@ const scene = new THREE.Scene()
  * Object
  */
 const geometry = new THREE.BoxGeometry(1, 1, 1)
-const material = new THREE.MeshBasicMaterial({ map: texture })
+const material = new THREE.MeshBasicMaterial({ map: colorTexture })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
