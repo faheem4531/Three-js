@@ -1,6 +1,20 @@
 import * as THREE from "three"
 import "./style.css"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
+import gsap from 'gsap'
+import * as lil from "lil-gui"
+
+
+// Debui -- Gui 
+const gui = new lil.GUI()
+const params = {
+  spin: () => {
+    gsap.to(mesh.rotation, { duration: 2, y: mesh.rotation.y + 15 })
+  }
+}
+
+
+
 
 // Curser
 const curser = {
@@ -23,6 +37,43 @@ const geometry = new THREE.BoxGeometry(1, 1, 1)
 const material = new THREE.MeshBasicMaterial({ color: '#ff0000' })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
+
+
+// Debug 
+gui
+  .add(mesh.position, 'y')
+  .min(-3)
+  .max(3)
+  .step(0.01)
+  .name('Y elevation')
+
+gui
+  .add(mesh.position, 'x')
+  .min(-3)
+  .max(3)
+  .step(0.01)
+  .name('X elevation')
+
+gui
+  .add(mesh.position, 'z')
+  .min(-3)
+  .max(3)
+  .step(0.01)
+  .name('Z elevation')
+
+gui
+  .add(mesh, 'visible')
+
+gui
+  .add(material, 'wireframe')
+
+gui
+  .addColor(material, 'color')
+
+gui
+  .add(params, 'spin')
+
+
 
 
 // Canvas 
