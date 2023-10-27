@@ -1,5 +1,28 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import * as lil from 'lil-gui'
+
+//                  Debug 
+const gui = new lil.GUI()
+
+
+
+
+//                          Textures
+const textureLoader = new THREE.TextureLoader()
+const doorColorTexture = textureLoader.load('/textures/door/color.jpg')
+const doorAlphaTexture = textureLoader.load('/textures/door/alpha.jpg')
+const doorAmbientOcclusionTexture = textureLoader.load('/textures/door/ambientOcclusion.jpg')
+const doorHeightTexture = textureLoader.load('/textures/door/height.jpg')
+const doorNormalTexture = textureLoader.load('/textures/door/normal.jpg')
+const doorMetalnessTexture = textureLoader.load('/textures/door/metalness.jpg')
+const doorRoughnessTexture = textureLoader.load('/textures/door/roughness.jpg')
+
+const matcapTexture = textureLoader.load('/textures/matcaps/8.png')
+const gradientTexture = textureLoader.load('/textures/gradients/3.jpg')
+gradientTexture.minFilter = THREE.NearestFilter
+gradientTexture.magFilter = THREE.NearestFilter
+gradientTexture.generateMipmaps = false
 
 /**
  * Base
@@ -14,7 +37,62 @@ const scene = new THREE.Scene()
 
 
 //                                                                                Material 
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+// //            Mesh Basic Material
+// const material = new THREE.MeshBasicMaterial()
+// material.color = new THREE.Color(0x00ff00)
+// material.wireframe = true
+// material.map = doorColorTexture
+// material.transparent = true
+// material.opacity = 0.5
+// material.alphaMap = doorAlphaTexture
+// material.side = THREE.LeftSide
+
+
+// //            Mesh Normal Material
+// const material = new THREE.MeshNormalMaterial
+// material.flatShading = true
+
+
+
+// //            Mesh Matcap Material
+// const material = new THREE.MeshMatcapMaterial()
+// material.matcap = matcapTexture
+
+
+
+// //            Mesh Depth Material
+// const material = new THREE.MeshDepthMaterial()
+
+
+
+// //      Mesh Lambert Material 
+// const material = new THREE.MeshLambertMaterial()
+
+
+// //      Mesh Phong Material ==>> similiar to Lambert 
+// const material = new THREE.MeshPhongMaterial()
+// material.shininess = 100
+// material.specular = new THREE.Color(0x1188ff)
+
+
+
+// //                  Mesh Toon Material  
+// const material = new THREE.MeshToonMaterial()
+// material.gradientMap = gradientTexture
+
+
+
+// //                  Mesh Standard Material  
+const material = new THREE.MeshStandardMaterial()
+material.metalness = 0.45
+material.roughness = 0.65
+
+gui
+    .add(material, 'metalness').min(0).max(1).step(0.0001)
+gui
+    .add(material, 'roughness').min(0).max(1).step(0.0001)
+
+
 
 const sphere = new THREE.Mesh(
     new THREE.SphereGeometry(0.5, 16, 16),
@@ -35,6 +113,16 @@ torus.position.x = 1.5
 
 scene.add(sphere, plane, torus)
 
+
+//                                 Lights (worl with lambert material)
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
+scene.add(ambientLight)
+
+const pointLight = new THREE.PointLight(0xffffff, 0.5)
+pointLight.position.x = 2
+pointLight.position.y = 3
+pointLight.position.z = 4
+scene.add(pointLight)
 
 
 /**
