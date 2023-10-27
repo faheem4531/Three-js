@@ -1,12 +1,12 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import * as dat from 'lil-gui'
-
+import * as lil from 'lil-gui'
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 /**
  * Base
  */
 // Debug
-const gui = new dat.GUI()
+const gui = new lil.GUI()
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -19,6 +19,14 @@ const scene = new THREE.Scene()
  */
 const textureLoader = new THREE.TextureLoader()
 
+//                           Fonts
+const fontLoader = new FontLoader()
+fontLoader.load(
+    '/fonts/helvetiker_regular.typeface.json ',
+    () => {
+        console.log('fonts Loaded');
+    }
+)
 /**
  * Object
  */
@@ -37,8 +45,7 @@ const sizes = {
     height: window.innerHeight
 }
 
-window.addEventListener('resize', () =>
-{
+window.addEventListener('resize', () => {
     // Update sizes
     sizes.width = window.innerWidth
     sizes.height = window.innerHeight
@@ -80,8 +87,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  */
 const clock = new THREE.Clock()
 
-const tick = () =>
-{
+const tick = () => {
     const elapsedTime = clock.getElapsedTime()
 
     // Update controls
