@@ -10,6 +10,33 @@ const canvas = document.querySelector('canvas.webgl')
 // Scene
 const scene = new THREE.Scene()
 
+
+
+
+//                                                                                Material 
+const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+
+const sphere = new THREE.Mesh(
+    new THREE.SphereGeometry(0.5, 16, 16),
+    material
+)
+sphere.position.x = -1.5
+
+const plane = new THREE.Mesh(
+    new THREE.PlaneGeometry(1, 1),
+    material
+)
+
+const torus = new THREE.Mesh(
+    new THREE.TorusGeometry(0.3, 0.2, 16, 32),
+    material
+)
+torus.position.x = 1.5
+
+scene.add(sphere, plane, torus)
+
+
+
 /**
  * Sizes
  */
@@ -18,8 +45,7 @@ const sizes = {
     height: window.innerHeight
 }
 
-window.addEventListener('resize', () =>
-{
+window.addEventListener('resize', () => {
     // Update sizes
     sizes.width = window.innerWidth
     sizes.height = window.innerHeight
@@ -61,9 +87,17 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  */
 const clock = new THREE.Clock()
 
-const tick = () =>
-{
+const tick = () => {
     const elapsedTime = clock.getElapsedTime()
+
+    // Update Objects
+    sphere.rotation.y = 0.1 * elapsedTime
+    plane.rotation.y = 0.1 * elapsedTime
+    torus.rotation.y = 0.1 * elapsedTime
+
+    sphere.rotation.x = 0.15 * elapsedTime
+    plane.rotation.x = 0.15 * elapsedTime
+    torus.rotation.x = 0.15 * elapsedTime
 
     // Update controls
     controls.update()
