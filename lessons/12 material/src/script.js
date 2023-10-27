@@ -10,6 +10,8 @@ const gui = new lil.GUI()
 
 //                          Textures
 const textureLoader = new THREE.TextureLoader()
+const cubeTextureLoader = new THREE.CubeTextureLoader()
+
 const doorColorTexture = textureLoader.load('/textures/door/color.jpg')
 const doorAlphaTexture = textureLoader.load('/textures/door/alpha.jpg')
 const doorAmbientOcclusionTexture = textureLoader.load('/textures/door/ambientOcclusion.jpg')
@@ -23,6 +25,17 @@ const gradientTexture = textureLoader.load('/textures/gradients/3.jpg')
 gradientTexture.minFilter = THREE.NearestFilter
 gradientTexture.magFilter = THREE.NearestFilter
 gradientTexture.generateMipmaps = false
+
+const envirmentMapTexture = cubeTextureLoader.load([
+    '/textures/environmentMaps/0/px.jpg',
+    '/textures/environmentMaps/0/nx.jpg',
+    '/textures/environmentMaps/0/py.jpg',
+    '/textures/environmentMaps/0/ny.jpg',
+    '/textures/environmentMaps/0/pz.jpg',
+    '/textures/environmentMaps/0/nx.jpg'
+])
+
+
 
 /**
  * Base
@@ -83,31 +96,62 @@ const scene = new THREE.Scene()
 
 
 // //                  Mesh Standard Material  
+// const material = new THREE.MeshStandardMaterial()
+// material.metalness = 0.45
+// material.roughness = 0.65
+// material.map = doorColorTexture
+// material.aoMap = doorAmbientOcclusionTexture  // to make lines on door sharper
+// material.aoMapIntensity = 1
+// material.displacementMap = doorHeightTexture
+// material.metalnessMap = doorMetalnessTexture
+// material.roughnessMap = doorRoughnessTexture
+// material.normalMap = doorNormalTexture
+// material.normalScale.set(1, 1)
+// material.transparent = true
+// material.alphaMap = doorAlphaTexture  // also use transparent for this
+
+
 const material = new THREE.MeshStandardMaterial()
-material.metalness = 0.45
-material.roughness = 0.65
+material.metalness = 0.7
+material.roughness = 0.2
+material.envMap = envirmentMapTexture
 
 gui
     .add(material, 'metalness').min(0).max(1).step(0.0001)
 gui
     .add(material, 'roughness').min(0).max(1).step(0.0001)
-
-
+gui
+    .add(material, 'aoMapIntensity').min(0).max(10).step(0.0001)
+gui
+    .add(material, 'displacementScale').min(0).max(1).step(0.0001)
 
 const sphere = new THREE.Mesh(
-    new THREE.SphereGeometry(0.5, 16, 16),
+    new THREE.SphereGeometry(0.5, 64, 64),
     material
+)
+sphere.geometry.setAttribute(
+    'uv2',
+    new THREE.BufferAttribute(sphere.geometry.attributes.uv.array, 2)
 )
 sphere.position.x = -1.5
 
 const plane = new THREE.Mesh(
-    new THREE.PlaneGeometry(1, 1),
+    new THREE.PlaneGeometry(1, 1, 100, 100),
     material
 )
+plane.geometry.setAttribute(
+    'uv2',
+    new THREE.BufferAttribute(plane.geometry.attributes.uv.array, 2)
+)
+
 
 const torus = new THREE.Mesh(
-    new THREE.TorusGeometry(0.3, 0.2, 16, 32),
+    new THREE.TorusGeometry(0.3, 0.2, 64, 128),
     material
+)
+torus.geometry.setAttribute(
+    'uv2',
+    new THREE.BufferAttribute(torus.geometry.attributes.uv.array, 2)
 )
 torus.position.x = 1.5
 
