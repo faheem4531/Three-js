@@ -21,6 +21,15 @@ const scene = new THREE.Scene()
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
+const matcapTexture1 = textureLoader.load('/textures/matcaps/1.png')
+const matcapTexture2 = textureLoader.load('/textures/matcaps/2.png')
+const matcapTexture3 = textureLoader.load('/textures/matcaps/3.png')
+const matcapTexture4 = textureLoader.load('/textures/matcaps/4.png')
+
+
+
+
+
 
 //                           Fonts
 const fontLoader = new FontLoader()
@@ -50,7 +59,8 @@ fontLoader.load(
 
     textGeometry.center()  // to make text geomatery in center with threejs 
 
-    const textMaterial = new THREE.MeshBasicMaterial()
+    const textMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture2 })
+    // textMaterial.wireframe = true
     const text = new THREE.Mesh(textGeometry, textMaterial)
     scene.add(text)
   }
