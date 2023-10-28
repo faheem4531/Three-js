@@ -65,11 +65,16 @@ fontLoader.load(
     scene.add(text)
 
     const donutGeometery = new THREE.TorusGeometry(0.3, 0.2, 20, 45)
-    // const donutMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture3 })
+    const donutMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture3 })
+    const sphereGeometry = new THREE.SphereGeometry(0.5, 64, 64)
+    const sphereMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture1 })
+    const planeGeometry = new THREE.PlaneGeometry(1, 1, 100, 100)
+    const planeMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture2 })
+
 
     for (let i = 0; i < 50; i++) {
-
-      const donut = new THREE.Mesh(donutGeometery, material)
+      //                  donuts
+      const donut = new THREE.Mesh(donutGeometery, donutMaterial)
 
       donut.position.x = (Math.random() - 0.5) * 10
       donut.position.y = (Math.random() - 0.5) * 10
@@ -84,7 +89,44 @@ fontLoader.load(
       donut.scale.z = scale
 
       scene.add(donut)
+
+      //                   sphere
+
+      const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial)
+
+      sphere.position.x = (Math.random() - 0.5) * 10
+      sphere.position.y = (Math.random() - 0.5) * 10
+      sphere.position.z = (Math.random() - 0.5) * 10
+
+      sphere.rotation.x = Math.random() * Math.PI
+      sphere.rotation.y = Math.random() * Math.PI
+
+      const scale2 = Math.random()
+      sphere.scale.x = scale2
+      sphere.scale.y = scale2
+      sphere.scale.z = scale2
+
+      scene.add(sphere)
+
+
+      // plane 
+      const plane = new THREE.Mesh(planeGeometry, planeMaterial)
+
+      plane.position.x = (Math.random() - 0.5) * 10
+      plane.position.y = (Math.random() - 0.5) * 10
+      plane.position.z = (Math.random() - 0.5) * 10
+
+      plane.rotation.x = Math.random() * Math.PI
+      plane.rotation.y = Math.random() * Math.PI
+
+      const scale3 = Math.random()
+      plane.scale.x = scale3
+      plane.scale.y = scale3
+      plane.scale.z = scale3
+
+      scene.add(plane)
     }
+
   }
 )
 
