@@ -59,10 +59,32 @@ fontLoader.load(
 
     textGeometry.center()  // to make text geomatery in center with threejs 
 
-    const textMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture2 })
-    // textMaterial.wireframe = true
-    const text = new THREE.Mesh(textGeometry, textMaterial)
+    const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture2 })
+    // material.wireframe = true
+    const text = new THREE.Mesh(textGeometry, material)
     scene.add(text)
+
+    const donutGeometery = new THREE.TorusGeometry(0.3, 0.2, 20, 45)
+    // const donutMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture3 })
+
+    for (let i = 0; i < 50; i++) {
+
+      const donut = new THREE.Mesh(donutGeometery, material)
+
+      donut.position.x = (Math.random() - 0.5) * 10
+      donut.position.y = (Math.random() - 0.5) * 10
+      donut.position.z = (Math.random() - 0.5) * 10
+
+      donut.rotation.x = Math.random() * Math.PI
+      donut.rotation.y = Math.random() * Math.PI
+
+      const scale = Math.random()
+      donut.scale.x = scale
+      donut.scale.y = scale
+      donut.scale.z = scale
+
+      scene.add(donut)
+    }
   }
 )
 
