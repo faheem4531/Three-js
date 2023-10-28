@@ -25,6 +25,10 @@ const matcapTexture1 = textureLoader.load('/textures/matcaps/1.png')
 const matcapTexture2 = textureLoader.load('/textures/matcaps/2.png')
 const matcapTexture3 = textureLoader.load('/textures/matcaps/3.png')
 const matcapTexture4 = textureLoader.load('/textures/matcaps/4.png')
+const matcapTexture5 = textureLoader.load('/textures/matcaps/5.png')
+const matcapTexture6 = textureLoader.load('/textures/matcaps/6.png')
+const matcapTexture7 = textureLoader.load('/textures/matcaps/7.png')
+const matcapTexture8 = textureLoader.load('/textures/matcaps/8.png')
 
 
 
@@ -33,6 +37,7 @@ const matcapTexture4 = textureLoader.load('/textures/matcaps/4.png')
 
 //                           Fonts
 const fontLoader = new FontLoader()
+let text
 fontLoader.load(
   '/fonts/helvetiker_regular.typeface.json ',
   (font) => {
@@ -61,24 +66,29 @@ fontLoader.load(
 
     const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture2 })
     // material.wireframe = true
-    const text = new THREE.Mesh(textGeometry, material)
+    text = new THREE.Mesh(textGeometry, material)
+    text.scale.x = 2
+    text.scale.y = 2
+    text.scale.z = 3
+
+
     scene.add(text)
 
     const donutGeometery = new THREE.TorusGeometry(0.3, 0.2, 20, 45)
-    const donutMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture3 })
+    const donutMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture5 })
     const sphereGeometry = new THREE.SphereGeometry(0.5, 64, 64)
     const sphereMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture1 })
     const planeGeometry = new THREE.PlaneGeometry(1, 1, 100, 100)
-    const planeMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture2 })
+    const planeMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture8 })
 
 
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 100; i++) {
       //                  donuts
       const donut = new THREE.Mesh(donutGeometery, donutMaterial)
 
-      donut.position.x = (Math.random() - 0.5) * 10
-      donut.position.y = (Math.random() - 0.5) * 10
-      donut.position.z = (Math.random() - 0.5) * 10
+      donut.position.x = (Math.random() - 0.5) * 20
+      donut.position.y = (Math.random() - 0.5) * 20
+      donut.position.z = (Math.random() - 0.5) * 20
 
       donut.rotation.x = Math.random() * Math.PI
       donut.rotation.y = Math.random() * Math.PI
@@ -94,9 +104,9 @@ fontLoader.load(
 
       const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial)
 
-      sphere.position.x = (Math.random() - 0.5) * 10
-      sphere.position.y = (Math.random() - 0.5) * 10
-      sphere.position.z = (Math.random() - 0.5) * 10
+      sphere.position.x = (Math.random() - 0.5) * 25
+      sphere.position.y = (Math.random() - 0.5) * 25
+      sphere.position.z = (Math.random() - 0.5) * 15
 
       sphere.rotation.x = Math.random() * Math.PI
       sphere.rotation.y = Math.random() * Math.PI
@@ -112,9 +122,9 @@ fontLoader.load(
       // plane 
       const plane = new THREE.Mesh(planeGeometry, planeMaterial)
 
-      plane.position.x = (Math.random() - 0.5) * 10
-      plane.position.y = (Math.random() - 0.5) * 10
-      plane.position.z = (Math.random() - 0.5) * 10
+      plane.position.x = (Math.random() - 0.5) * 20
+      plane.position.y = (Math.random() - 0.5) * 20
+      plane.position.z = (Math.random() - 0.5) * 15
 
       plane.rotation.x = Math.random() * Math.PI
       plane.rotation.y = Math.random() * Math.PI
@@ -161,7 +171,7 @@ window.addEventListener('resize', () => {
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 camera.position.x = 1
 camera.position.y = 1
-camera.position.z = 2
+camera.position.z = 6
 scene.add(camera)
 
 
@@ -187,6 +197,7 @@ const clock = new THREE.Clock()
 const tick = () => {
   const elapsedTime = clock.getElapsedTime()
 
+  text.rotation.x = 0.15 * elapsedTime
   // Update controls
   controls.update()
 
