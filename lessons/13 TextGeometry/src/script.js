@@ -3,6 +3,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as lil from 'lil-gui'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
+import gsap from 'gsap'
 
 
 /**
@@ -62,17 +63,37 @@ fontLoader.load(
     //   - (textGeometry.boundingBox.max.z - 0.03) * 0.5   // subtract z value from bevelThickness to make it center of the its axes
     // )
 
-    textGeometry.center()  // to make text geomatery in center with threejs 
+    const params = {
+      spin: () => {
+        gsap.to(text.rotation, { duration: 2, x: text.rotation.x + 15 })
+      }
+    }
 
-    const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture2 })
-    // material.wireframe = true
+
+    textGeometry.center()  // to make text geomatery in center with threejs 
+    const color = "skyblue"
+    const material = new THREE.MeshMatcapMaterial({ color: color })
+    material.wireframe = false
+
+
+
+
     text = new THREE.Mesh(textGeometry, material)
     text.scale.x = 2
     text.scale.y = 2
     text.scale.z = 3
 
+    gui
+      .add(material, 'wireframe')
+    gui
+      .add(text, 'visible').name('Hide Name')
+    gui
+      .addColor(material, 'color')
+    gui
+      .add(params, 'spin')
 
     scene.add(text)
+
 
     const donutGeometery = new THREE.TorusGeometry(0.3, 0.2, 20, 45)
     const donutMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture5 })
@@ -80,7 +101,6 @@ fontLoader.load(
     const sphereMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture1 })
     const planeGeometry = new THREE.PlaneGeometry(1, 1, 100, 100)
     const planeMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture8 })
-
 
     for (let i = 0; i < 100; i++) {
       //                  donuts
@@ -197,7 +217,7 @@ const clock = new THREE.Clock()
 const tick = () => {
   const elapsedTime = clock.getElapsedTime()
 
-  text.rotation.x = 0.15 * elapsedTime
+  // text.rotation.x = 0.15 * elapsedTime
   // Update controls
   controls.update()
 
