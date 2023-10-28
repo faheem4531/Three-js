@@ -32,13 +32,8 @@ const matcapTexture7 = textureLoader.load('/textures/matcaps/7.png')
 const matcapTexture8 = textureLoader.load('/textures/matcaps/8.png')
 
 
-
-
-
-
 //                           Fonts
 const fontLoader = new FontLoader()
-let text
 fontLoader.load(
   '/fonts/helvetiker_regular.typeface.json ',
   (font) => {
@@ -76,9 +71,7 @@ fontLoader.load(
     material.wireframe = false
 
 
-
-
-    text = new THREE.Mesh(textGeometry, material)
+    const text = new THREE.Mesh(textGeometry, material)
     text.scale.x = 2
     text.scale.y = 2
     text.scale.z = 3
@@ -94,73 +87,73 @@ fontLoader.load(
 
     scene.add(text)
 
-
-    const donutGeometery = new THREE.TorusGeometry(0.3, 0.2, 20, 45)
-    const donutMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture5 })
-    const sphereGeometry = new THREE.SphereGeometry(0.5, 64, 64)
-    const sphereMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture1 })
-    const planeGeometry = new THREE.PlaneGeometry(1, 1, 100, 100)
-    const planeMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture8 })
-
-    for (let i = 0; i < 100; i++) {
-      //                  donuts
-      const donut = new THREE.Mesh(donutGeometery, donutMaterial)
-
-      donut.position.x = (Math.random() - 0.5) * 20
-      donut.position.y = (Math.random() - 0.5) * 20
-      donut.position.z = (Math.random() - 0.5) * 20
-
-      donut.rotation.x = Math.random() * Math.PI
-      donut.rotation.y = Math.random() * Math.PI
-
-      const scale = Math.random()
-      donut.scale.x = scale
-      donut.scale.y = scale
-      donut.scale.z = scale
-
-      scene.add(donut)
-
-      //                   sphere
-
-      const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial)
-
-      sphere.position.x = (Math.random() - 0.5) * 25
-      sphere.position.y = (Math.random() - 0.5) * 25
-      sphere.position.z = (Math.random() - 0.5) * 15
-
-      sphere.rotation.x = Math.random() * Math.PI
-      sphere.rotation.y = Math.random() * Math.PI
-
-      const scale2 = Math.random()
-      sphere.scale.x = scale2
-      sphere.scale.y = scale2
-      sphere.scale.z = scale2
-
-      scene.add(sphere)
-
-
-      // plane 
-      const plane = new THREE.Mesh(planeGeometry, planeMaterial)
-
-      plane.position.x = (Math.random() - 0.5) * 20
-      plane.position.y = (Math.random() - 0.5) * 20
-      plane.position.z = (Math.random() - 0.5) * 15
-
-      plane.rotation.x = Math.random() * Math.PI
-      plane.rotation.y = Math.random() * Math.PI
-
-      const scale3 = Math.random()
-      plane.scale.x = scale3
-      plane.scale.y = scale3
-      plane.scale.z = scale3
-
-      scene.add(plane)
-    }
-
   }
 )
 
+// objects
+const donutGeometery = new THREE.TorusGeometry(0.3, 0.2, 20, 45)
+const donutMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture5 })
+const sphereGeometry = new THREE.SphereGeometry(0.5, 64, 64)
+const sphereMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture3 })
+const planeGeometry = new THREE.PlaneGeometry(1, 1, 100, 100)
+const planeMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture8 })
 
+let donut = []
+let plane = []
+for (let i = 0; i < 80; i++) {
+  //                  donuts
+  donut[i] = new THREE.Mesh(donutGeometery, donutMaterial)
+
+  donut[i].position.x = (Math.random() - 0.5) * 20
+  donut[i].position.y = (Math.random() - 0.5) * 20
+  donut[i].position.z = (Math.random() - 0.5) * 20
+
+  donut[i].rotation.x = Math.random() * Math.PI
+  donut[i].rotation.y = Math.random() * Math.PI
+
+  const scale = Math.random()
+  donut[i].scale.x = scale
+  donut[i].scale.y = scale
+  donut[i].scale.z = scale
+
+  scene.add(donut[i])
+
+  //                   sphere
+
+  const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial)
+
+  sphere.position.x = (Math.random() - 0.5) * 25
+  sphere.position.y = (Math.random() - 0.5) * 25
+  sphere.position.z = (Math.random() - 0.5) * 15
+
+  sphere.rotation.x = Math.random() * Math.PI
+  sphere.rotation.y = Math.random() * Math.PI
+
+  const scale2 = Math.random()
+  sphere.scale.x = scale2
+  sphere.scale.y = scale2
+  sphere.scale.z = scale2
+
+  scene.add(sphere)
+
+
+  // plane 
+  plane[i] = new THREE.Mesh(planeGeometry, planeMaterial)
+
+  plane[i].position.x = (Math.random() - 0.5) * 20
+  plane[i].position.y = (Math.random() - 0.5) * 20
+  plane[i].position.z = (Math.random() - 0.5) * 15
+
+  plane[i].rotation.x = Math.random() * Math.PI
+  plane[i].rotation.y = Math.random() * Math.PI
+
+  const scale3 = Math.random()
+  plane[i].scale.x = scale3
+  plane[i].scale.y = scale3
+  plane[i].scale.z = scale3
+
+  scene.add(plane[i])
+}
 
 /**
  * Sizes
@@ -200,6 +193,20 @@ scene.add(camera)
 const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true
 
+
+
+window.addEventListener('dblclick', () => {
+
+  if (!document.fullscreenElement) {
+    canvas.requestFullscreen()
+  }
+  else {
+    document.exitFullscreen()
+  }
+})
+
+
+
 /**
  * Renderer
  */
@@ -217,7 +224,16 @@ const clock = new THREE.Clock()
 const tick = () => {
   const elapsedTime = clock.getElapsedTime()
 
-  // text.rotation.x = 0.15 * elapsedTime
+  for (let i = 0; i < donut.length; i++) {
+
+    donut[i].rotation.x = 0.3 * elapsedTime
+    plane[i].rotation.x = 0.3 * elapsedTime
+
+    donut[i].rotation.y = 0.2 * elapsedTime
+    plane[i].rotation.y = 0.2 * elapsedTime
+  }
+
+
   // Update controls
   controls.update()
 
