@@ -66,8 +66,8 @@ fontLoader.load(
 
 
     textGeometry.center()  // to make text geomatery in center with threejs 
-    const color = "skyblue"
-    const material = new THREE.MeshMatcapMaterial({ color: color })
+    // const color = "skyblue"
+    const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture5 })
     material.wireframe = false
 
 
