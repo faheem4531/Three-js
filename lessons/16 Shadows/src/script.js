@@ -31,6 +31,17 @@ gui.add(directionalLight.position, 'y').min(- 5).max(5).step(0.001)
 gui.add(directionalLight.position, 'z').min(- 5).max(5).step(0.001)
 scene.add(directionalLight)
 
+
+directionalLight.castShadow = true
+
+directionalLight.shadow.mapSize.width = 1024 //take the power of 2 values
+directionalLight.shadow.mapSize.height = 1024
+
+
+const directionalLightHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
+scene.add(directionalLightHelper)
+
+
 /**
  * Materials
  */
@@ -47,6 +58,8 @@ const sphere = new THREE.Mesh(
     material
 )
 
+sphere.castShadow = true
+
 const plane = new THREE.Mesh(
     new THREE.PlaneGeometry(5, 5),
     material
@@ -54,6 +67,8 @@ const plane = new THREE.Mesh(
 plane.rotation.x = - Math.PI * 0.5
 plane.position.y = - 0.5
 
+
+plane.receiveShadow = true
 scene.add(sphere, plane)
 
 /**
@@ -64,8 +79,7 @@ const sizes = {
     height: window.innerHeight
 }
 
-window.addEventListener('resize', () =>
-{
+window.addEventListener('resize', () => {
     // Update sizes
     sizes.width = window.innerWidth
     sizes.height = window.innerHeight
@@ -102,13 +116,16 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
+renderer.shadowMap.enabled = true
+
+
+
 /**
  * Animate
  */
 const clock = new THREE.Clock()
 
-const tick = () =>
-{
+const tick = () => {
     const elapsedTime = clock.getElapsedTime()
 
     // Update controls
