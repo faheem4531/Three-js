@@ -24,6 +24,16 @@ const directionalLight = new THREE.DirectionalLight(0xffffff, 0.3)
 directionalLight.position.set(1, 0.25, 0)
 scene.add(directionalLight)
 
+const hemisphereLight = new THREE.HemisphereLight(0xff0000, 0x0000ff, 0.5) //  (SkyColor, groundColor, intensity)
+scene.add(hemisphereLight)
+
+
+const pointLight = new THREE.PointLight(0xff900, 0.5)  // color, intinsity
+pointLight.position.set(1, -0.5, 1)
+scene.add(pointLight)
+
+
+
 /**
  * Objects
  */
