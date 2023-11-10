@@ -1,9 +1,14 @@
 // Shadows ==> apply on only three lights , spotLight, pointLight, directionalLight
 
-
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'lil-gui'
+
+
+// Texture 
+const textureLoader = new THREE.TextureLoader()
+const bakedShadow = textureLoader.load('/textures/bakedShadow.jpg ')
+
 
 /**
  * Base
@@ -102,12 +107,14 @@ const sphere = new THREE.Mesh(
     new THREE.SphereGeometry(0.5, 32, 32),
     material
 )
-
+// sphere.position.y = 1
 sphere.castShadow = true
 
 const plane = new THREE.Mesh(
     new THREE.PlaneGeometry(5, 5),
-    material
+    new THREE.MeshBasicMaterial({
+        map: bakedShadow
+    })
 )
 plane.rotation.x = - Math.PI * 0.5
 plane.position.y = - 0.5
@@ -161,7 +168,13 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
-renderer.shadowMap.enabled = true
+// renderer.shadowMap.enabled = true
+// to disable shadow 
+renderer.shadowMap.enabled = false
+directionalLight.castShadow = false
+spotLight.castShadow = false
+pointLight.castShadow = false
+
 renderer.shadowMap.type = THREE.PCFShadowMap
 
 
