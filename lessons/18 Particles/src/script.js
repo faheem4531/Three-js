@@ -1,3 +1,5 @@
+//https://kenney.nl/assets  reference
+
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'lil-gui'
@@ -19,14 +21,39 @@ const scene = new THREE.Scene()
  */
 const textureLoader = new THREE.TextureLoader()
 
+
+const particleTexture = textureLoader.load('./textures/particles/2.png')
 /**
- * Test cube
+ * Particles
  */
-const cube = new THREE.Mesh(
-    new THREE.BoxGeometry(1, 1, 1),
-    new THREE.MeshBasicMaterial()
+// Geometry 
+const particlesGeometry = new THREE.BufferGeometry()
+const count = 5000
+
+const position = new Float32Array(count * 3)
+
+
+for (let i = 0; i < count; i++) {
+
+    position[i] = (Math.random() - 0.5) * 10
+}
+
+particlesGeometry.setAttribute(
+    'position',
+    new THREE.BufferAttribute(position, 3)
 )
-scene.add(cube)
+
+
+//Material
+const particlesMaterial = new THREE.PointsMaterial()
+particlesMaterial.size = 0.1
+particlesMaterial.sizeAttenuation = true
+particlesMaterial.color = new THREE.Color("#ff88cc")
+particlesMaterial.map = particleTexture
+
+//points
+const particles = new THREE.Points(particlesGeometry, particlesMaterial)
+scene.add(particles)
 
 /**
  * Sizes
@@ -36,8 +63,7 @@ const sizes = {
     height: window.innerHeight
 }
 
-window.addEventListener('resize', () =>
-{
+window.addEventListener('resize', () => {
     // Update sizes
     sizes.width = window.innerWidth
     sizes.height = window.innerHeight
@@ -77,8 +103,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  */
 const clock = new THREE.Clock()
 
-const tick = () =>
-{
+const tick = () => {
     const elapsedTime = clock.getElapsedTime()
 
     // Update controls
