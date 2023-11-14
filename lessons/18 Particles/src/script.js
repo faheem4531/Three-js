@@ -28,14 +28,15 @@ const particleTexture = textureLoader.load('./textures/particles/2.png')
  */
 // Geometry 
 const particlesGeometry = new THREE.BufferGeometry()
-const count = 5000
+const count = 20000
 
 const position = new Float32Array(count * 3)
-
+const colors = new Float32Array(count * 3)
 
 for (let i = 0; i < count; i++) {
 
     position[i] = (Math.random() - 0.5) * 10
+    colors[i] = Math.random()
 }
 
 particlesGeometry.setAttribute(
@@ -43,13 +44,28 @@ particlesGeometry.setAttribute(
     new THREE.BufferAttribute(position, 3)
 )
 
+particlesGeometry.setAttribute(
+    'color',
+    new THREE.BufferAttribute(colors, 3)
+)
 
 //Material
 const particlesMaterial = new THREE.PointsMaterial()
 particlesMaterial.size = 0.1
 particlesMaterial.sizeAttenuation = true
 particlesMaterial.color = new THREE.Color("#ff88cc")
-particlesMaterial.map = particleTexture
+particlesMaterial.transparent = true
+particlesMaterial.alphaMap = particleTexture
+
+// particlesMaterial.alphaTest = 0.001
+// OR 
+// particlesMaterial.depthTest = false
+// OR 
+particlesMaterial.depthWrite = false
+
+particlesMaterial.blending = THREE.AdditiveBlending
+particlesMaterial.vertexColors = true
+
 
 //points
 const particles = new THREE.Points(particlesGeometry, particlesMaterial)
