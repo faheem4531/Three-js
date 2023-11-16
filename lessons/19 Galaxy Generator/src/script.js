@@ -24,6 +24,8 @@ parameters.radius = 5
 parameters.branches = 3
 parameters.spin = 1
 parameters.randomness = 3
+parameters.insideColor = '#ff6030'
+parameters.outsideColor = '#1b3984'
 
 let geometry = null
 let material = null
@@ -46,11 +48,16 @@ const generateGalaxy = () => {
     geometry = new THREE.BufferGeometry()
 
     const position = new Float32Array(parameters.count * 3)
+    const colors = new Float32Array(parameters.count * 3)
+
+    const colorInside = new THREE.Color(parameters.insideColor)
+    const colorOutside = new THREE.Color(parameters.outsideColor)
 
     for (let i = 0; i < parameters.count; i++) {
 
         const i3 = i * 3
 
+        //Positions
         const radius = Math.random() * parameters.radius
         const spinAngle = radius * parameters.spin
         const branchAngle = (i % parameters.branches) / parameters.branches * Math.PI * 2          //(i % parameters.branches)  get the value of           0,1,2    0,1,2     0,1,2 keep the same       
@@ -62,10 +69,24 @@ const generateGalaxy = () => {
         position[i3 + 0] = Math.cos(branchAngle + spinAngle) * radius + randomX                   // x
         position[i3 + 1] = 0 + randomY                      // y
         position[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius + randomZ                     // z
+
+        //Colors
+        const mixedColor = colorInside.clone()
+        mixedColor.lerp(colorOutside, radius / parameters.radius)
+
+        colors[i3 + 0] = mixedColor.r
+        colors[i3 + 1] = mixedColor.g
+        colors[i3 + 2] = mixedColor.b
+
     }
     geometry.setAttribute(
         'position',
         new THREE.BufferAttribute(position, 3)
+    )
+
+    geometry.setAttribute(
+        'color',
+        new THREE.BufferAttribute(colors, 3)
     )
 
     /* 
@@ -75,7 +96,8 @@ const generateGalaxy = () => {
         size: parameters.size,
         sizeAttenuation: true,
         depthWrite: false,
-        blending: THREE.AdditiveBlending
+        blending: THREE.AdditiveBlending,
+        vertexColors: true
     })
 
 
@@ -97,6 +119,8 @@ gui.add(parameters, 'radius').min(0.01).max(20).step(0.01).onFinishChange(genera
 gui.add(parameters, 'branches').min(2).max(20).step(1).onFinishChange(generateGalaxy)
 gui.add(parameters, 'spin').min(-5).max(5).step(0.001).onFinishChange(generateGalaxy)
 gui.add(parameters, 'randomness').min(1).max(10).step(0.001).onFinishChange(generateGalaxy)
+gui.addColor(parameters, 'insideColor').onFinishChange(generateGalaxy)
+gui.addColor(parameters, 'outsideColor').onFinishChange(generateGalaxy)
 
 
 /**
