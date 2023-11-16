@@ -23,6 +23,7 @@ parameters.size = 0.01
 parameters.radius = 5
 parameters.branches = 3
 parameters.spin = 1
+parameters.randomness = 3
 
 let geometry = null
 let material = null
@@ -54,9 +55,13 @@ const generateGalaxy = () => {
         const spinAngle = radius * parameters.spin
         const branchAngle = (i % parameters.branches) / parameters.branches * Math.PI * 2          //(i % parameters.branches)  get the value of           0,1,2    0,1,2     0,1,2 keep the same       
 
-        position[i3 + 0] = Math.cos(branchAngle + spinAngle) * radius                      // x
-        position[i3 + 1] = 0                      // y
-        position[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius                       // z
+        const randomX = Math.pow(Math.random(), parameters.randomness) * (Math.random() < 0.5 ? 1 : -1)
+        const randomY = Math.pow(Math.random(), parameters.randomness) * (Math.random() < 0.5 ? 1 : -1)
+        const randomZ = Math.pow(Math.random(), parameters.randomness) * (Math.random() < 0.5 ? 1 : -1)
+
+        position[i3 + 0] = Math.cos(branchAngle + spinAngle) * radius + randomX                   // x
+        position[i3 + 1] = 0 + randomY                      // y
+        position[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius + randomZ                     // z
     }
     geometry.setAttribute(
         'position',
@@ -91,6 +96,7 @@ gui.add(parameters, 'size').min(0.001).max(0.1).step(0.01).onFinishChange(genera
 gui.add(parameters, 'radius').min(0.01).max(20).step(0.01).onFinishChange(generateGalaxy)
 gui.add(parameters, 'branches').min(2).max(20).step(1).onFinishChange(generateGalaxy)
 gui.add(parameters, 'spin').min(-5).max(5).step(0.001).onFinishChange(generateGalaxy)
+gui.add(parameters, 'randomness').min(1).max(10).step(0.001).onFinishChange(generateGalaxy)
 
 
 /**
