@@ -12,12 +12,15 @@ const parameters = {
 
 gui
     .addColor(parameters, 'materialColor')
+    .onChange(() => {
+        material.color.set(parameters.materialColor)
+    })
 
 /**
  * Base
  */
 // Canvas
-const canvas = document.querySelector('canvas.webgl')
+const canvas = document.querySelector('.webgl')
 
 // Scene
 const scene = new THREE.Scene()
@@ -25,7 +28,18 @@ const scene = new THREE.Scene()
 /**
  * Objects
  */
-const material = new THREE.MeshToonMaterial({ color: parameters.materialColor })
+//Texture
+const textureLoader = new THREE.TextureLoader()
+const gradientTexture = textureLoader.load('textures/gradients/3.jpg')
+gradientTexture.magFilter = THREE.NearestFilter
+
+
+//Material
+const objectsDistance = 4
+const material = new THREE.MeshToonMaterial({
+    color: parameters.materialColor,
+    gradientMap: gradientTexture
+})
 
 const mesh1 = new THREE.Mesh(
     new THREE.TorusGeometry(1, 0.4, 16, 60),
@@ -42,7 +56,19 @@ const mesh3 = new THREE.Mesh(
     material
 )
 
+mesh1.position.y = -objectsDistance * 0
+mesh2.position.y = -objectsDistance * 1
+mesh3.position.y = -objectsDistance * 2
 scene.add(mesh1, mesh2, mesh3)
+
+/**
+ * Lights
+ */
+const directionalLights = new THREE.DirectionalLight('#ffffff', 1)
+directionalLights.position.set(1, 1, 0)
+scene.add(directionalLights)
+
+
 /**
  * Sizes
  */
@@ -78,7 +104,7 @@ scene.add(camera)
  */
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas,
-    alpha: true
+    // alpha: true
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
