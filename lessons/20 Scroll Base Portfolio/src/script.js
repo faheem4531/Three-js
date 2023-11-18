@@ -59,6 +59,11 @@ const mesh3 = new THREE.Mesh(
 mesh1.position.y = -objectsDistance * 0
 mesh2.position.y = -objectsDistance * 1
 mesh3.position.y = -objectsDistance * 2
+
+mesh1.position.x = 2
+mesh2.position.x = -2
+mesh3.position.x = 2
+
 scene.add(mesh1, mesh2, mesh3)
 
 const sectionMeshes = [mesh1, mesh2, mesh3]
@@ -112,6 +117,18 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
+
+/**
+ * Scroll
+ */
+let scrollY = window.scrollY
+
+window.addEventListener('scroll', () => {
+
+    scrollY = window.scrollY
+})
+
+
 /**
  * Animate
  */
@@ -119,6 +136,9 @@ const clock = new THREE.Clock()
 
 const tick = () => {
     const elapsedTime = clock.getElapsedTime()
+
+    //Animate camera
+    camera.position.y = - scrollY / sizes.height * objectsDistance
 
     //Animate Meshes
     for (const mesh of sectionMeshes) {
