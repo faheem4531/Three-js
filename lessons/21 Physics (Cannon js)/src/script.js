@@ -46,6 +46,21 @@ const scene = new THREE.Scene()
 
 
 /**
+ * Sound
+ */
+const hitSound = new Audio('/sounds/hit.mp3')
+
+const playHitSound = (collision) => {
+    const impaceStrength = collision.contact.getImpactVelocityAlongNormal()
+    if (impaceStrength > 1.5) {
+        hitSound.volume = Math.random()
+        hitSound.currentTime = 0
+        hitSound.play()
+    }
+}
+
+
+/**
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
@@ -209,6 +224,7 @@ const createSphere = (radius, position) => {
         material: defaultMaterial
     })
     body.position.copy(position)
+    body.addEventListener('collide', playHitSound)
     world.addBody(body)
 
     //Save in object to update
@@ -249,6 +265,7 @@ const createBox = (width, height, depth, position) => {
         material: defaultMaterial
     })
     body.position.copy(position)
+    body.addEventListener('collide', playHitSound)
     world.addBody(body)
 
     //Save in object to update
