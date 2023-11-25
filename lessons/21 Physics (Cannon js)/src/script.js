@@ -31,8 +31,22 @@ debugObj.createBox = () => {
         })
 }
 
+debugObj.reset = () => {
+    for (const object of objectsToUpdate) {
+
+        //Remove
+        object.body.removeEventListener('collide', playHitSound)
+        world.removeBody(object.body)
+        objectsToUpdate.splice(0, objectsToUpdate.length)
+
+        //Remove Mesh
+        scene.remove(object.mesh)
+    }
+
+}
 gui.add(debugObj, "createSphere")
 gui.add(debugObj, "createBox")
+gui.add(debugObj, "reset")
 
 
 /**
