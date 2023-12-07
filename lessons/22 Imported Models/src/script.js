@@ -22,8 +22,8 @@ const gltfLoader = new GLTFLoader()
 
 gltfLoader.load(
     '/models/Duck/glTF/Duck.gltf',
-    () => {
-        console.log('succes');
+    (gltf) => {
+        scene.add(gltf.scene.children[0])
     },
     // () => {
     //     console.log('progress');
