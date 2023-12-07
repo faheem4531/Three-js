@@ -20,18 +20,38 @@ const scene = new THREE.Scene()
  */
 const gltfLoader = new GLTFLoader()
 
+//                                             Load Duck
+// gltfLoader.load(
+//     '/models/Duck/glTF/Duck.gltf',
+//     (gltf) => {
+//         scene.add(gltf.scene.children[0])
+//     },
+//     // () => {
+//     //     console.log('progress');
+//     // },
+//     // () => {
+//     //     console.log('error');
+//     // }
+// )
+
+//                                              Load Flight Helmet
+
 gltfLoader.load(
-    '/models/Duck/glTF/Duck.gltf',
+    '/models/FlightHelmet/glTF/FlightHelmet.gltf',
     (gltf) => {
-        scene.add(gltf.scene.children[0])
+        // method 1
+        // const children = [...gltf.scene.children]
+
+        // for (const child of children) {
+        //     scene.add(child)
+        // }
+
+
+        // method 2
+        scene.add(gltf.scene)
     },
-    // () => {
-    //     console.log('progress');
-    // },
-    // () => {
-    //     console.log('error');
-    // }
 )
+
 
 
 /**
