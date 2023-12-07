@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import * as dat from 'lil-gui'
 
 /**
@@ -18,39 +19,49 @@ const scene = new THREE.Scene()
 /**
  * Models
  */
+const dracoLoader = new DRACOLoader()
+dracoLoader.setDecoderPath('/draco/')  // to load draco modal fast
+
+
 const gltfLoader = new GLTFLoader()
+gltfLoader.setDRACOLoader(dracoLoader)
+
 
 //                                             Load Duck
-// gltfLoader.load(
-//     '/models/Duck/glTF/Duck.gltf',
-//     (gltf) => {
-//         scene.add(gltf.scene.children[0])
-//     },
-//     // () => {
-//     //     console.log('progress');
-//     // },
-//     // () => {
-//     //     console.log('error');
-//     // }
-// )
-
-//                                              Load Flight Helmet
-
 gltfLoader.load(
-    '/models/FlightHelmet/glTF/FlightHelmet.gltf',
+    '/models/Duck/glTF/Duck.gltf',
     (gltf) => {
-        // method 1
-        // const children = [...gltf.scene.children]
-
-        // for (const child of children) {
-        //     scene.add(child)
-        // }
-
-
-        // method 2
         scene.add(gltf.scene)
     },
+    // () => {
+    //     console.log('progress');
+    // },
+    // () => {
+    //     console.log('error');
+    // }
 )
+
+
+
+// //                                              Load Flight Helmet
+
+// gltfLoader.load(
+//     '/models/FlightHelmet/glTF/FlightHelmet.gltf',
+//     (gltf) => {
+//         // method 1
+//         // const children = [...gltf.scene.children]
+
+//         // for (const child of children) {
+//         //     scene.add(child)
+//         // }
+
+
+//         // method 2
+//         scene.add(gltf.scene)
+//     },
+// )
+
+
 
 
 
