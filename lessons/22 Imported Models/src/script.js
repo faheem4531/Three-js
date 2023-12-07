@@ -28,18 +28,18 @@ gltfLoader.setDRACOLoader(dracoLoader)
 
 
 //                                             Load Duck
-gltfLoader.load(
-    '/models/Duck/glTF/Duck.gltf',
-    (gltf) => {
-        scene.add(gltf.scene)
-    },
-    // () => {
-    //     console.log('progress');
-    // },
-    // () => {
-    //     console.log('error');
-    // }
-)
+// gltfLoader.load(
+//     '/models/Duck/glTF/Duck.gltf',
+//     (gltf) => {
+//         scene.add(gltf.scene)
+//     },
+//     // () => {
+//     //     console.log('progress');
+//     // },
+//     // () => {
+//     //     console.log('error');
+//     // }
+// )
 
 
 
@@ -62,6 +62,16 @@ gltfLoader.load(
 // )
 
 
+
+
+//                                             Load Fox
+gltfLoader.load(
+    '/models/Fox/glTF/Fox.gltf',
+    (gltf) => {
+        gltf.scene.scale.set(0.025, 0.025, 0.025)
+        scene.add(gltf.scene)
+    },
+)
 
 
 
