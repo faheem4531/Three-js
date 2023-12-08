@@ -36,6 +36,14 @@ object3.position.x = 2
 
 scene.add(object1, object2, object3)
 
+
+
+/**
+ * Raycaster
+ */
+const raycaster = new THREE.Raycaster()
+
+
 /**
  * Sizes
  */
@@ -44,8 +52,7 @@ const sizes = {
     height: window.innerHeight
 }
 
-window.addEventListener('resize', () =>
-{
+window.addEventListener('resize', () => {
     // Update sizes
     sizes.width = window.innerWidth
     sizes.height = window.innerHeight
@@ -85,9 +92,24 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  */
 const clock = new THREE.Clock()
 
-const tick = () =>
-{
+const tick = () => {
     const elapsedTime = clock.getElapsedTime()
+
+    //Animate objects
+    object1.position.y = Math.sin(elapsedTime * 0.3) * 1.5
+    object2.position.y = Math.sin(elapsedTime * 0.8) * 1.5
+    object3.position.y = Math.sin(elapsedTime * 1.4) * 1.5
+
+    //Cast a ray 
+    const rayOrigin = new THREE.Vector3(-3, 0, 0)
+    const rayDirection = new THREE.Vector3(1, 0, 0)
+    rayDirection.normalize()
+
+    raycaster.set(rayOrigin, rayDirection)
+
+    const objToTest = [object1, object2, object3]
+    const intersects = raycaster.intersectObjects(objToTest)
+
 
     // Update controls
     controls.update()
