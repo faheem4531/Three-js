@@ -1,6 +1,8 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'lil-gui'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+
 
 /**
  * Base
@@ -101,6 +103,34 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
+
+/**
+ *  modal
+ */
+const gltfLoader = new GLTFLoader()
+
+let model = null
+
+gltfLoader.load(
+    './models/Duck/glTF-Binary/Duck.glb',
+    (glft) => {
+        model = glft.scene
+        model.position.y = -1.2
+        scene.add(model)
+    }
+)
+/**
+ * Lights
+ */
+
+// Ambient light
+const ambientLight = new THREE.AmbientLight('#ffffff', 0.3)
+scene.add(ambientLight)
+
+const directionalLight = new THREE.DirectionalLight('#ffffff', 0.7)
+directionalLight.position.set(1, 2, 3)
+scene.add(directionalLight)
+
 /**
  * Animate
  */
@@ -134,17 +164,34 @@ const tick = () => {
 
 
 
-    //Color change of the sphere when hover on it (one or more sphere)                case 2
+    //Color change of the sphere when hover on it (one or more sphere)                          case 2
+    // raycaster.setFromCamera(mouse, camera)
+    // const objToTest = [object1, object2, object3]
+    // const intersects = raycaster.intersectObjects(objToTest)
+
+    // for (const object of objToTest) {
+    //     object.material.color.set('#ff0000')
+    // }
+
+    // for (const intersect of intersects) {
+    //     intersect.object.material.color.set('#0000ff')
+    // }
+
+
+    //                                                             Ray cast Model
     raycaster.setFromCamera(mouse, camera)
-    const objToTest = [object1, object2, object3]
-    const intersects = raycaster.intersectObjects(objToTest)
 
-    for (const object of objToTest) {
-        object.material.color.set('#ff0000')
-    }
+    if (model) {
 
-    for (const intersect of intersects) {
-        intersect.object.material.color.set('#0000ff')
+        const modelIntersects = raycaster.intersectObject(model)
+
+        if (modelIntersects.length) {
+            model.scale.set(1.2, 1.2, 1.2)
+            // model.scale.set(1.2, 1.2, 1.2)
+        }
+        else {
+            model.scale.set(1, 1, 1)
+        }
     }
 
 
