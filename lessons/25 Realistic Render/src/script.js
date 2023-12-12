@@ -32,6 +32,9 @@ const updateAllMaterial = () => {
         if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
             child.material.envMap = environmentMap
             child.material.envMapIntensity = debugObject.envMapIntensity
+            child.material.needsUpdate = true
+            child.castShadow = true
+            child.receiveShadow = true
         }
     })
 }
@@ -85,7 +88,13 @@ gltfLoader.load(
  */
 const directionalLight = new THREE.DirectionalLight('#ffffff', 3)
 directionalLight.position.set(0.25, 3, -2.25)
+directionalLight.castShadow = true
+directionalLight.shadow.camera.far = 15
+directionalLight.shadow.mapSize.set(1024, 1024)
 scene.add(directionalLight)
+
+// const directionalLightCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
+// scene.add(directionalLightCameraHelper)
 
 gui.add(directionalLight, 'intensity').min(0).max(10).step(0.001).name('lightIntensity')
 gui.add(directionalLight.position, 'x').min(-5).max(5).step(0.001).name('lightX')
@@ -132,7 +141,8 @@ controls.enableDamping = true
  * Renderer
  */
 const renderer = new THREE.WebGLRenderer({
-    canvas: canvas
+    canvas: canvas,
+    antialias: true
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
@@ -140,6 +150,9 @@ renderer.physicallyCorrectLights = true
 renderer.outputEncoding = THREE.sRGBEncoding
 renderer.toneMapping = THREE.ReinhardToneMapping
 renderer.toneMappingExposure = 3 / 2
+renderer.shadowMap.enabled = true
+renderer.shadowMap.type = THREE.PCFShadowMap
+
 
 gui.add(renderer, 'toneMapping', {
     No: THREE.NoToneMapping,
