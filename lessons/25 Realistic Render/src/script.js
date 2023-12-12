@@ -7,6 +7,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
  * Loaders
  */
 const gltfLoader = new GLTFLoader()
+const cubeTextureLoader = new THREE.CubeTextureLoader()
 
 /**
  * Base
@@ -21,13 +22,17 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 /**
- * Test sphere
+ * Environmental Map
  */
-// const testSphere = new THREE.Mesh(
-//     new THREE.SphereGeometry(1, 32, 32),
-//     new THREE.MeshStandardMaterial()
-// )
-// scene.add(testSphere)
+const environmentMap = cubeTextureLoader.load([
+    '/textures/environmentMaps/0/px.jpg',
+    '/textures/environmentMaps/0/nx.jpg',
+    '/textures/environmentMaps/0/py.jpg',
+    '/textures/environmentMaps/0/ny.jpg',
+    '/textures/environmentMaps/0/pz.jpg',
+    '/textures/environmentMaps/0/nz.jpg',
+])
+scene.background = environmentMap
 
 
 /**
