@@ -82,6 +82,27 @@ gltfLoader.load(
     }
 )
 
+//HamBurger Modal
+
+// gltfLoader.load(
+//     '/models/hamburger.glb',
+//     (gltf) => {
+
+//         gltf.scene.scale.set(0.3, 0.3, 0.3)
+//         gltf.scene.position.set(0, -1, 0)
+//         gltf.scene.rotation.y = Math.PI * 0.5
+//         scene.add(gltf.scene)
+
+//         gui
+//             .add(gltf.scene.rotation, 'y')
+//             .min(-Math.PI)
+//             .max(Math.PI)
+//             .step(0.001)
+//             .name('rotation')
+
+//         updateAllMaterial()
+//     }
+// )
 
 /**
  * Lights
@@ -91,6 +112,7 @@ directionalLight.position.set(0.25, 3, -2.25)
 directionalLight.castShadow = true
 directionalLight.shadow.camera.far = 15
 directionalLight.shadow.mapSize.set(1024, 1024)
+directionalLight.shadow.normalBias = 0.05
 scene.add(directionalLight)
 
 // const directionalLightCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
