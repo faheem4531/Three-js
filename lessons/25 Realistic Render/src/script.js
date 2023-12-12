@@ -14,12 +14,29 @@ const cubeTextureLoader = new THREE.CubeTextureLoader()
  */
 // Debug
 const gui = new dat.GUI()
+const debugObject = {}
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
+
+
+/**
+ * Update all materials
+ */
+const updateAllMaterial = () => {
+    scene.traverse((child) => {
+
+        if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
+            child.material.envMap = environmentMap
+            child.material.envMapIntensity = debugObject.envMapIntensity
+        }
+    })
+}
+
+
 
 /**
  * Environmental Map
@@ -33,6 +50,9 @@ const environmentMap = cubeTextureLoader.load([
     '/textures/environmentMaps/0/nz.jpg',
 ])
 scene.background = environmentMap
+
+debugObject.envMapIntensity = 5
+gui.add(debugObject, 'envMapIntensity').min(0).max(10).step(0.001).onChange(updateAllMaterial())
 
 
 /**
@@ -53,6 +73,8 @@ gltfLoader.load(
             .max(Math.PI)
             .step(0.001)
             .name('rotation')
+
+        updateAllMaterial()
     }
 )
 
