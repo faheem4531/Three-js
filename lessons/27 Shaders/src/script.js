@@ -26,7 +26,27 @@ const textureLoader = new THREE.TextureLoader()
 const geometry = new THREE.PlaneGeometry(1, 1, 32, 32)
 
 // Material
-const material = new THREE.MeshBasicMaterial()
+const material = new THREE.RawShaderMaterial({
+    vertexShader: `
+    uniform mat4 projectionMatrix;
+    uniform mat4 viewMatrix;
+    uniform mat4 modelMatrix;
+
+    attribute vec3 position;
+
+    void main()
+    {
+        gl_Position = projectionMatrix * viewMatrix * vec4(position,1.0);
+    }
+    `,
+    fragmentShader: `
+    precision mediump float;
+
+    void main(){
+        gl_FragColor = vec4 (1.0,0.0,0.0,1.0);
+    }
+    `
+})
 
 // Mesh
 const mesh = new THREE.Mesh(geometry, material)
@@ -40,8 +60,7 @@ const sizes = {
     height: window.innerHeight
 }
 
-window.addEventListener('resize', () =>
-{
+window.addEventListener('resize', () => {
     // Update sizes
     sizes.width = window.innerWidth
     sizes.height = window.innerHeight
@@ -81,8 +100,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  */
 const clock = new THREE.Clock()
 
-const tick = () =>
-{
+const tick = () => {
     const elapsedTime = clock.getElapsedTime()
 
     // Update controls
