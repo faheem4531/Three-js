@@ -12,7 +12,14 @@ const loadingBarElement = document.querySelector('.loading-bar')
 const loadingManager = new THREE.LoadingManager(
     //loaded
     () => {
-        gsap.to(overlayMaterial.uniforms.uAlpha, { duration: 3, value: 0 })
+        gsap.delayedCall(
+            0.5, () => {
+
+                gsap.to(overlayMaterial.uniforms.uAlpha, { duration: 3, value: 0 })
+                loadingBarElement.classList.add('ended')
+                loadingBarElement.style.transform = ''
+            })
+
     },
 
     //Progress
