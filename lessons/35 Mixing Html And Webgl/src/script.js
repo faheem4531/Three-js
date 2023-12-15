@@ -124,7 +124,7 @@ gltfLoader.load(
 /**
  * Points of intrust
  */
-
+const raycaster = new THREE.Raycaster()
 const points = [
     {
         position: new THREE.Vector3(1.55, 0.3, -0.6),
@@ -206,6 +206,16 @@ const tick = () => {
     for (const point of points) {
         const screenPosition = point.position.clone()
         screenPosition.project(camera)
+
+        raycaster.setFromCamera(screenPosition, camera)
+        const intersects = raycaster.intersectObjects(scene.children, true)
+
+        if (intersects.length === 0) {
+            point.element.classList.add('visible')
+        }
+        else {
+            point.element.classList.remove('visible')
+        }
 
         const translateX = screenPosition.x * sizes.width * 0.5
         const translateY = -screenPosition.x * sizes.height * 0.5
