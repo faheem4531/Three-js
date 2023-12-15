@@ -1,2 +1,9 @@
-24 => Creating own models using blender
-26 => Code structure for bigger projects
+24 => Creating Own Models Using Blender
+26 => Codes Structure For Bigger Projects
+28 => Shaders Pattern
+29 => Ranging Sea Using Shaders
+30 => Animated Galaxy
+31 => Modified Materials
+32 => Post-Processing i.e gliches....
+33 => Performances Tips
+
