@@ -20,15 +20,38 @@ const canvas = document.querySelector('canvas.webgl')
 // Scene
 const scene = new THREE.Scene()
 
+
+/**
+ * OverLay
+ */
+const overlayGeometry = new THREE.PlaneGeometry(2, 2, 1, 1)
+const overlayMaterial = new THREE.ShaderMaterial({
+    transparent: true,
+    uniforms: {
+        uAlpha: { value: 1 }
+    },
+    vertexShader: `
+    void main(){
+        gl_Position = vec4 (position,1.0);
+    }
+    `,
+    fragmentShader: `
+    void main()
+    {
+        gl_FragColor = vec4 (0.0, 0.0, 0.0, 1.0);
+    }
+    `
+})
+const overlay = new THREE.Mesh(overlayGeometry, overlayMaterial)
+scene.add(overlay)
+
+
 /**
  * Update all materials
  */
-const updateAllMaterials = () =>
-{
-    scene.traverse((child) =>
-    {
-        if(child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial)
-        {
+const updateAllMaterials = () => {
+    scene.traverse((child) => {
+        if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
             // child.material.envMap = environmentMap
             child.material.envMapIntensity = debugObject.envMapIntensity
             child.material.needsUpdate = true
@@ -62,8 +85,7 @@ debugObject.envMapIntensity = 2.5
  */
 gltfLoader.load(
     '/models/FlightHelmet/glTF/FlightHelmet.gltf',
-    (gltf) =>
-    {
+    (gltf) => {
         gltf.scene.scale.set(10, 10, 10)
         gltf.scene.position.set(0, - 4, 0)
         gltf.scene.rotation.y = Math.PI * 0.5
@@ -92,8 +114,7 @@ const sizes = {
     height: window.innerHeight
 }
 
-window.addEventListener('resize', () =>
-{
+window.addEventListener('resize', () => {
     // Update sizes
     sizes.width = window.innerWidth
     sizes.height = window.innerHeight
@@ -138,8 +159,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 /**
  * Animate
  */
-const tick = () =>
-{
+const tick = () => {
     // Update controls
     controls.update()
 
