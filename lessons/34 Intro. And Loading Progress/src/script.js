@@ -6,6 +6,9 @@ import { gsap } from 'gsap'
 /**
  * Loaders
  */
+const loadingBarElement = document.querySelector('.loading-bar')
+
+
 const loadingManager = new THREE.LoadingManager(
     //loaded
     () => {
@@ -13,9 +16,10 @@ const loadingManager = new THREE.LoadingManager(
     },
 
     //Progress
-    () => {
-        // console.log("progress");
+    (itemUrl, itemLoaded, itemTotal) => {
 
+        const progressRatio = itemLoaded / itemTotal
+        loadingBarElement.style.transform = `scaleX(${progressRatio})`
     }
 )
 const gltfLoader = new GLTFLoader(loadingManager)
