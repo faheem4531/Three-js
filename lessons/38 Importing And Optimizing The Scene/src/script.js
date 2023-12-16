@@ -43,6 +43,25 @@ const cube = new THREE.Mesh(
 scene.add(cube)
 
 /**
+ * Material
+ */
+//Baked Material
+const bakedMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+/**
+ * Model
+ */
+
+gltfLoader.load(
+    'portal.glb',
+    (gltf) => {
+        gltf.scene.traverse((child) => {
+            child.material = bakedMaterial
+        })
+        scene.add(gltf.scene)
+    }
+)
+
+/**
  * Sizes
  */
 const sizes = {
@@ -50,8 +69,7 @@ const sizes = {
     height: window.innerHeight
 }
 
-window.addEventListener('resize', () =>
-{
+window.addEventListener('resize', () => {
     // Update sizes
     sizes.width = window.innerWidth
     sizes.height = window.innerHeight
@@ -94,8 +112,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  */
 const clock = new THREE.Clock()
 
-const tick = () =>
-{
+const tick = () => {
     const elapsedTime = clock.getElapsedTime()
 
     // Update controls
