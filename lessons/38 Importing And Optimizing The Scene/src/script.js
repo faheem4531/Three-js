@@ -33,20 +33,28 @@ const gltfLoader = new GLTFLoader()
 gltfLoader.setDRACOLoader(dracoLoader)
 
 /**
- * Object
+ * Texture
  */
-const cube = new THREE.Mesh(
-    new THREE.BoxGeometry(1, 1, 1),
-    new THREE.MeshBasicMaterial()
-)
-
-scene.add(cube)
+const bakedTexture = textureLoader.load('baked.jpg')
+bakedTexture.flipY = false
+bakedTexture.encoding = THREE.sRGBEncoding
 
 /**
  * Material
  */
 //Baked Material
-const bakedMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+const bakedMaterial = new THREE.MeshBasicMaterial({ map: bakedTexture })
+
+
+//Pole light material
+const poleLightMaterial = new THREE.MeshBasicMaterial({ color: 0xffffe5 })
+
+
+
+//Pole light material
+const portalLightMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff })
+
+
 /**
  * Model
  */
@@ -54,9 +62,20 @@ const bakedMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 })
 gltfLoader.load(
     'portal.glb',
     (gltf) => {
+
         gltf.scene.traverse((child) => {
+
             child.material = bakedMaterial
         })
+
+        const portalLightMesh = gltf.scene.children.find(child => child.name === 'portalLight')
+        const poleLightAMesh = gltf.scene.children.find(child => child.name === 'poleLightA')
+        const poleLightBMesh = gltf.scene.children.find(child => child.name === 'poleLightB')
+
+        portalLightMesh.material = portalLightMaterial
+        poleLightAMesh.material = poleLightMaterial
+        poleLightBMesh.material = poleLightMaterial
+
         scene.add(gltf.scene)
     }
 )
@@ -106,7 +125,7 @@ const renderer = new THREE.WebGLRenderer({
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-
+renderer.outputEncoding = THREE.sRGBEncoding
 /**
  * Animate
  */
