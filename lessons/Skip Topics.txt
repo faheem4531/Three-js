@@ -8,3 +8,4 @@
 33 => Performances Tips
 36 => Creating A Scene In Blender
 37 => Baking And Exporting The Scene
+39 => Adding Small Details To The Scene
