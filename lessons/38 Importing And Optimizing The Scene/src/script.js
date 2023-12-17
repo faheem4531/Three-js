@@ -51,8 +51,8 @@ const poleLightMaterial = new THREE.MeshBasicMaterial({ color: 0xffffe5 })
 
 
 
-//Pole light material
-const portalLightMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff })
+//Portal light material
+const portalLightMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide })
 
 
 /**
